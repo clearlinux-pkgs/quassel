@@ -4,7 +4,7 @@
 #
 Name     : quassel
 Version  : 0.13.rc1
-Release  : 1
+Release  : 2
 URL      : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
 Summary  : No detailed summary available
@@ -48,6 +48,14 @@ Group: Data
 data components for the quassel package.
 
 
+%package extras
+Summary: extras components for the quassel package.
+Group: Default
+
+%description extras
+extras components for the quassel package.
+
+
 %package license
 Summary: license components for the quassel package.
 Group: Default
@@ -64,7 +72,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534184126
+export SOURCE_DATE_EPOCH=1534184285
 mkdir clr-build
 pushd clr-build
 %cmake ..
@@ -72,7 +80,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1534184126
+export SOURCE_DATE_EPOCH=1534184285
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/quassel
 cp 3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/doc/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
@@ -90,9 +98,9 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
+%exclude /usr/bin/quasselcore
 /usr/bin/quassel
 /usr/bin/quasselclient
-/usr/bin/quasselcore
 
 %files data
 %defattr(-,root,root,-)
@@ -615,6 +623,10 @@ popd
 /usr/share/quassel/stylesheets/default.qss
 /usr/share/quassel/stylesheets/jussi01-darktheme.qss
 /usr/share/quassel/stylesheets/m4yer.qss
+
+%files extras
+%defattr(-,root,root,-)
+/usr/bin/quasselcore
 
 %files license
 %defattr(-,root,root,-)
