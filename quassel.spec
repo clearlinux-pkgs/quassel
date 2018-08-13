@@ -4,10 +4,11 @@
 #
 Name     : quassel
 Version  : 0.13.rc1
-Release  : 3
+Release  : 4
 URL      : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
-Source1  : quasselcore.service
+Source1  : quassel.tmpfiles
+Source2  : quasselcore.service
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1 LGPL-3.0
@@ -83,7 +84,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534184711
+export SOURCE_DATE_EPOCH=1534184859
 mkdir clr-build
 pushd clr-build
 %cmake ..
@@ -91,7 +92,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1534184711
+export SOURCE_DATE_EPOCH=1534184859
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/quassel
 cp 3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/doc/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
@@ -104,7 +105,9 @@ pushd clr-build
 %make_install
 popd
 mkdir -p %{buildroot}/usr/lib/systemd/system
-install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/quasselcore.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/quasselcore.service
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/quassel.conf
 
 %files
 %defattr(-,root,root,-)
@@ -118,6 +121,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/quasselcore.servi
 %files config
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/quasselcore.service
+/usr/lib/tmpfiles.d/quassel.conf
 
 %files data
 %defattr(-,root,root,-)
