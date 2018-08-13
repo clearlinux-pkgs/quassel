@@ -4,13 +4,15 @@
 #
 Name     : quassel
 Version  : 0.13.rc1
-Release  : 2
+Release  : 3
 URL      : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13-rc1.tar.gz
+Source1  : quasselcore.service
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1 LGPL-3.0
 Requires: quassel-bin
+Requires: quassel-config
 Requires: quassel-data
 Requires: quassel-license
 BuildRequires : buildreq-cmake
@@ -34,10 +36,19 @@ and license statements.
 Summary: bin components for the quassel package.
 Group: Binaries
 Requires: quassel-data
+Requires: quassel-config
 Requires: quassel-license
 
 %description bin
 bin components for the quassel package.
+
+
+%package config
+Summary: config components for the quassel package.
+Group: Default
+
+%description config
+config components for the quassel package.
 
 
 %package data
@@ -72,7 +83,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534184285
+export SOURCE_DATE_EPOCH=1534184711
 mkdir clr-build
 pushd clr-build
 %cmake ..
@@ -80,7 +91,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1534184285
+export SOURCE_DATE_EPOCH=1534184711
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/quassel
 cp 3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/doc/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
@@ -92,6 +103,8 @@ cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/quassel/cmake_COPYING-
 pushd clr-build
 %make_install
 popd
+mkdir -p %{buildroot}/usr/lib/systemd/system
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/quasselcore.service
 
 %files
 %defattr(-,root,root,-)
@@ -101,6 +114,10 @@ popd
 %exclude /usr/bin/quasselcore
 /usr/bin/quassel
 /usr/bin/quasselclient
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/quasselcore.service
 
 %files data
 %defattr(-,root,root,-)

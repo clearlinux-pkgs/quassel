@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Quassel Core server
+After=systemd-user-sessions.service
+
+[Service]
+User=quassel
+Type=simple
+WorkingDirectory=/var/lib/quassel
+ExecStart=/usr/bin/quasselcore
+
+[Install]
+WantedBy=multi-user.target
