@@ -4,7 +4,7 @@
 #
 Name     : quassel
 Version  : 0.13.0
-Release  : 5
+Release  : 6
 URL      : https://github.com/quassel/quassel/archive/0.13.0.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13.0.tar.gz
 Source1  : quassel.tmpfiles
@@ -99,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1543514023
+export SOURCE_DATE_EPOCH=1544466592
 mkdir -p clr-build
 pushd clr-build
 %cmake ..
@@ -107,7 +107,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1543514023
+export SOURCE_DATE_EPOCH=1544466592
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/quassel
 cp 3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
