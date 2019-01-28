@@ -4,7 +4,7 @@
 #
 Name     : quassel
 Version  : 0.13.0
-Release  : 6
+Release  : 7
 URL      : https://github.com/quassel/quassel/archive/0.13.0.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13.0.tar.gz
 Source1  : quassel.tmpfiles
