@@ -1,1 +1,2 @@
 /usr/bin/quasselcore
+/usr/lib/systemd/system/quasselcore.service
