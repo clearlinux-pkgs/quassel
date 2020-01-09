@@ -4,7 +4,7 @@
 #
 Name     : quassel
 Version  : 0.13.1
-Release  : 9
+Release  : 10
 URL      : https://github.com/quassel/quassel/archive/0.13.1.tar.gz
 Source0  : https://github.com/quassel/quassel/archive/0.13.1.tar.gz
 Source1  : quassel.tmpfiles
@@ -16,7 +16,6 @@ Requires: quassel-bin = %{version}-%{release}
 Requires: quassel-config = %{version}-%{release}
 Requires: quassel-data = %{version}-%{release}
 Requires: quassel-license = %{version}-%{release}
-Requires: quassel-services = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : git
 BuildRequires : mesa-dev
@@ -31,6 +30,7 @@ BuildRequires : qtbase-dev mesa-dev
 BuildRequires : qtbase-extras
 BuildRequires : qttools-dev
 BuildRequires : zlib-dev
+Patch1: 0001-common-Disable-enum-type-stream-operators-for-Qt-5.14.patch
 
 %description
 We bundle some CMake scripts that are not part of CMake itself, for convenience
@@ -45,7 +45,6 @@ Group: Binaries
 Requires: quassel-data = %{version}-%{release}
 Requires: quassel-config = %{version}-%{release}
 Requires: quassel-license = %{version}-%{release}
-Requires: quassel-services = %{version}-%{release}
 
 %description bin
 bin components for the quassel package.
@@ -83,40 +82,38 @@ Group: Default
 license components for the quassel package.
 
 
-%package services
-Summary: services components for the quassel package.
-Group: Systemd services
-
-%description services
-services components for the quassel package.
-
-
 %prep
 %setup -q -n quassel-0.13.1
+cd %{_builddir}/quassel-0.13.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1552322319
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1578595716
 mkdir -p clr-build
 pushd clr-build
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake ..
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1552322319
+export SOURCE_DATE_EPOCH=1578595716
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/quassel
-cp 3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
-cp 3rdparty/icons/breeze-dark/LICENSE %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_breeze-dark_LICENSE
-cp 3rdparty/icons/breeze/COPYING-ICONS %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_breeze_COPYING-ICONS
-cp 3rdparty/icons/breeze/LICENSE %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_breeze_LICENSE
-cp 3rdparty/icons/oxygen/COPYING %{buildroot}/usr/share/package-licenses/quassel/3rdparty_icons_oxygen_COPYING
-cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/quassel/cmake_COPYING-CMAKE-SCRIPTS
+cp %{_builddir}/quassel-0.13.1/3rdparty/icons/breeze-dark/COPYING-ICONS %{buildroot}/usr/share/package-licenses/quassel/64474638fded94568edef3950d35b464488065b5
+cp %{_builddir}/quassel-0.13.1/3rdparty/icons/breeze-dark/LICENSE %{buildroot}/usr/share/package-licenses/quassel/f45ee1c765646813b442ca58de72e20a64a7ddba
+cp %{_builddir}/quassel-0.13.1/3rdparty/icons/breeze/COPYING-ICONS %{buildroot}/usr/share/package-licenses/quassel/64474638fded94568edef3950d35b464488065b5
+cp %{_builddir}/quassel-0.13.1/3rdparty/icons/breeze/LICENSE %{buildroot}/usr/share/package-licenses/quassel/f45ee1c765646813b442ca58de72e20a64a7ddba
+cp %{_builddir}/quassel-0.13.1/3rdparty/icons/oxygen/COPYING %{buildroot}/usr/share/package-licenses/quassel/d4ca5d36d06f97622e54feed256d8bff1c07db4d
+cp %{_builddir}/quassel-0.13.1/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/quassel/d631f6b11ea65b2b02297d5a4bf1fc66885995d4
 pushd clr-build
 %make_install
 popd
@@ -130,7 +127,6 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/quassel.conf
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/quasselcore
 /usr/bin/quassel
 /usr/bin/quasselclient
 
@@ -702,13 +698,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/quassel.conf
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/quassel/3rdparty_icons_breeze-dark_COPYING-ICONS
-/usr/share/package-licenses/quassel/3rdparty_icons_breeze-dark_LICENSE
-/usr/share/package-licenses/quassel/3rdparty_icons_breeze_COPYING-ICONS
-/usr/share/package-licenses/quassel/3rdparty_icons_breeze_LICENSE
-/usr/share/package-licenses/quassel/3rdparty_icons_oxygen_COPYING
-/usr/share/package-licenses/quassel/cmake_COPYING-CMAKE-SCRIPTS
-
-%files services
-%defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/quasselcore.service
+/usr/share/package-licenses/quassel/64474638fded94568edef3950d35b464488065b5
+/usr/share/package-licenses/quassel/d4ca5d36d06f97622e54feed256d8bff1c07db4d
+/usr/share/package-licenses/quassel/d631f6b11ea65b2b02297d5a4bf1fc66885995d4
+/usr/share/package-licenses/quassel/f45ee1c765646813b442ca58de72e20a64a7ddba
