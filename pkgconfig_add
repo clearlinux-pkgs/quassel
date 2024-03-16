@@ -1,7 +1,5 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
-Qt5Core
+Qt6Core
 libdrm
-Qt5Script
-Qt5Multimedia
-phonon4qt5
+Qt6Multimedia

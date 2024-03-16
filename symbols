@@ -1777,7 +1777,6 @@ libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit13setCustomFontERK5QFont
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit14on_textChangedEv
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit14updateSizeHintEv
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit15historyMoveBackEv
-libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit16contextMenuEventEP17QContextMenuEvent
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit16mircCodesChangedER11QTextCursorS1_
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit16on_returnPressedE7QString
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit16on_returnPressedEv
@@ -1787,7 +1786,6 @@ libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit18addCompletionSpaceEv
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit18historyMoveForwardEv
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit18setLineWrapEnabledEb
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit20setScrollBarsEnabledEb
-libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit20setSpellCheckEnabledEb
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit22convertMircCodesToHtmlERK7QString
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit24on_documentHeightChangedEd
 libquassel-uisupport.so.0.14.0:_ZN13MultiLineEdit25setPasteProtectionEnabledEbP7QWidget
@@ -2101,7 +2099,6 @@ libquassel-uisupport.so.0.14.0:_ZNK12SettingsPage22autoWidgetPropertyNameEP7QObj
 libquassel-uisupport.so.0.14.0:_ZNK12TabCompleter10metaObjectEv
 libquassel-uisupport.so.0.14.0:_ZNK12TabCompleter13CompletionKeyltERKS0_
 libquassel-uisupport.so.0.14.0:_ZNK13MultiLineEdit10metaObjectEv
-libquassel-uisupport.so.0.14.0:_ZNK13MultiLineEdit11highlighterEv
 libquassel-uisupport.so.0.14.0:_ZNK13MultiLineEdit15minimumSizeHintEv
 libquassel-uisupport.so.0.14.0:_ZNK13MultiLineEdit8sizeHintEv
 libquassel-uisupport.so.0.14.0:_ZNK13TreeViewTouch10metaObjectEv
